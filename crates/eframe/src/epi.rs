@@ -288,6 +288,10 @@ pub struct NativeOptions {
     #[cfg(target_os = "windows")]
     pub active: bool,
 
+    /// Whether prevent the window button from being placed on the taskbar. False by default.
+    #[cfg(target_os = "windows")]
+    pub skip_taskbar: bool,
+
     /// Turn on vertical syncing, limiting the FPS to the display refresh rate.
     ///
     /// The default is `true`.
@@ -426,6 +430,8 @@ impl Default for NativeOptions {
 
             #[cfg(target_os = "windows")]
             active: true,
+            #[cfg(target_os = "windows")]
+            skip_taskbar: false,
 
             vsync: true,
             multisampling: 0,

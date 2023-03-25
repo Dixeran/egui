@@ -3,6 +3,9 @@ use winit::event_loop::EventLoopWindowTarget;
 #[cfg(target_os = "macos")]
 use winit::platform::macos::WindowBuilderExtMacOS as _;
 
+#[cfg(target_os = "windows")]
+use winit::platform::windows::WindowBuilderExtWindows;
+
 #[cfg(feature = "accesskit")]
 use egui::accesskit;
 use egui::NumExt as _;
@@ -91,6 +94,7 @@ pub fn window_builder<E>(
         transparent,
         centered,
         active,
+        skip_taskbar,
         ..
     } = native_options;
 
@@ -115,6 +119,11 @@ pub fn window_builder<E>(
             .with_title_hidden(true)
             .with_titlebar_transparent(true)
             .with_fullsize_content_view(true);
+    }
+
+    #[cfg(target_os = "windows")]
+    {
+        window_builder = window_builder.with_skip_taskbar(*skip_taskbar);
     }
 
     if let Some(min_size) = *min_window_size {
